@@ -8,7 +8,7 @@ const InventoryProductSchema = new mongoose.Schema({
   type: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
-  image: { type: String }, // Save Base64 string here
+  image: { type: String }, // Save Image as Base64 string here
 });
 
 export default mongoose.models.InventoryProduct || mongoose.model('InventoryProduct', InventoryProductSchema);

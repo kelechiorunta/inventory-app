@@ -14,6 +14,12 @@ const sessionUserSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId, //Reference to InventoryProducts documents
         ref: 'InventoryProduct'
       }
+    ],
+    salesorders_list: [
+      {
+        type: mongoose.Schema.Types.ObjectId, //Reference to SalesOrder documents
+        ref: 'SalesOrder'
+      }
     ]
   });
   
