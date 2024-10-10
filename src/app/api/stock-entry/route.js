@@ -90,7 +90,7 @@ export async function POST(req, res) {
 
     // Get authenticated user
     // const user = await getAuthenticatedUser(req);
-    // const session = await getSession({ req });
+    // const session = await getSession({ req }); //Does not see session
     // console.log(session)
     // const user = session?.user
     const secret = process.env.NEXTAUTH_SECRET

@@ -8,6 +8,12 @@ const sessionUserSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId, // Reference to Stock documents
         ref: 'Stock'
       }
+    ],
+    products_list: [
+      {
+        type: mongoose.Schema.Types.ObjectId, //Reference to InventoryProducts documents
+        ref: 'InventoryProduct'
+      }
     ]
   });
   

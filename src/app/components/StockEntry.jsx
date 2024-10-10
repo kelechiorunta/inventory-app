@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { FaSpinner } from 'react-icons/fa';
 // import Stock from '../utils/models/Stock';
 
 const StockEntry = () => {
@@ -14,6 +15,7 @@ const StockEntry = () => {
   const [password, setPassword] = useState('');
   const [stockEntries, setStockEntries] = useState({month:'', year:'', stockIn:'', stockOut:''})
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleStockEntry = (e) => {
     const {name, value} = e.target
@@ -28,6 +30,7 @@ const StockEntry = () => {
     e.preventDefault();
     const { month, year, stockIn, stockOut } = stockEntries
     const entries = { month, year, stockIn, stockOut }
+    setIsLoading(true)
     try{    
         const response = await axios.post('/api/stock-entry', entries, {
             withCredentials:true,
@@ -36,9 +39,13 @@ const StockEntry = () => {
               },
         })//await axios.post('/api/stock-entry', entries, {withCredentials:true})
             console.log(response.data)
+            setStockEntries((prev)=>({...prev, month: '', year:'', stockIn:'', stockOut:''}))
     }
         catch(err){
             console.error(err.message)
+        }
+        finally{
+            setIsLoading(false)
         }
 
   };
@@ -130,24 +137,24 @@ const StockEntry = () => {
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Sign in with Credentials
+              {isLoading? <FaSpinner className='animate-spin m-auto' size={20}/> : 'Enter Stocks'}
             </button>
           </div>
         </form>
-
+{/* 
         <div className="mt-6 flex items-center justify-between">
           <hr className="w-full border-gray-300" />
           <span className="px-2 text-gray-500">Or</span>
           <hr className="w-full border-gray-300" />
-        </div>
+        </div> */}
 
         {/* Google Sign-In Button */}
-        <button
+        {/* <button
           onClick={handleSignInWithGoogle}
           className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
         >
           Sign in with Google
-        </button>
+        </button> */}
       </div>
     </div>
   );
