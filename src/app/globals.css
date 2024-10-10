@@ -31,4 +31,16 @@ body {
     font-size: 2rem;
     display: inline-block;
   }
+
+  table, th, td, tbody, thead, tr {
+    border-collapse: collapse;
+    box-sizing: border-box;
+    border: 1px solid;
+    text-align: center;
+    margin: auto;
+  }
+
+  tbody{
+    overflow: scroll;
+  }
 }
