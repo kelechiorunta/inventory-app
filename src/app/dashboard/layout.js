@@ -4,11 +4,13 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react'; // Import the signOut function
+import { useSession } from 'next-auth/react';
 import { FaDailymotion, FaIndustry, FaRProject, FaSalesforce, FaSwift, FaUser, FaChevronDown, FaChevronUp, FaSignOutAlt } from 'react-icons/fa';
 
 const DashBoardLayout = ({ children }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session, status } = useSession();
 
   // State to manage which accordion sections are open
   const [openSections, setOpenSections] = useState({
@@ -26,7 +28,7 @@ const DashBoardLayout = ({ children }) => {
 
   // Sign out function
   const handleSignOut = () => {
-    signOut({ callbackUrl: '/signin' }); // Redirect to sign-in after sign-out
+    signOut(); // Redirect to sign-in after sign-out
   };
 
   return (
@@ -35,8 +37,18 @@ const DashBoardLayout = ({ children }) => {
       <aside className="w-64 bg-gray-100 border-r max-sm:w-full">
         <div className="flex flex-col h-full">
           {/* Logo Section */}
-          <div className="px-8 py-4 bg-gray-200">
-            <h2 className="text-purple-600 font-bold text-lg">Wrapper</h2>
+          <div className="px-8 py-4 bg-gray-200 flex items-center justify-between">
+            <h2 className="text-purple-600 font-bold text-lg flex items-center"><span className='logoD'>D</span>INVENTORY</h2>
+            {session?.user?.picture? 
+            <img src={session?.user?.picture} 
+                width={30}
+                height={30} 
+                className='bg-center border-white border shadow-xl rounded-full'/>
+            : 
+            <p className='w-[30px] h-[30px] flex items-center justify-center p-2 rounded-full border uppercase border-white shadow-xl bg-black text-white'>
+                {session?.user?.email[0]}
+            </p>
+            }
           </div>
 
           {/* Navigation Links */}

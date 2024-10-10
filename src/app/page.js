@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className='container max-w-full flex flex-col'>
-
+        <h1>Unauthorized Friend</h1>
     </div>
   );
 }

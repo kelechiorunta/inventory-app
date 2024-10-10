@@ -7,6 +7,10 @@ import bcrypt from 'bcrypt';
 
 export async function auth(req, res) {
     // Connect to the MongoDB database
+
+    /** TRY MY NEW MONGODB_URI WITH NO COLLECTIONS YET INSIDE CREATED ON 8TH OCT., 2024
+ * MONGODB_URI="mongodb+srv://kelechiorunta:keleman4xst@cluster0.3qksfbr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+ */
     await connectToDatabase();
 
     return await NextAuth(req, res, {
@@ -52,6 +56,9 @@ export async function auth(req, res) {
         secret: process.env.NEXTAUTH_SECRET,
         jwt: {
             maxAge: 60 * 60 * 24 * 30, // Set JWT token expiry to 30 days
+        },
+        session: {
+            jwt:true
         },
         pages: {
             signIn: '/signin', // Custom sign-in page

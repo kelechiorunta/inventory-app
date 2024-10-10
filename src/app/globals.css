@@ -24,4 +24,11 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .logoD{
+    -webkit-text-stroke: 1px blue;
+    color: white;
+    font-size: 2rem;
+    display: inline-block;
+  }
 }

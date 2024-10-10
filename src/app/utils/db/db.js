@@ -34,3 +34,30 @@ async function connectToDatabase() {
 }
 
 export default connectToDatabase;
+
+// import { MongoClient } from 'mongodb';
+
+// let cachedDb = null;
+
+// export default async function connectToDatabase() {
+//   if (cachedDb) {
+//     return { db: cachedDb };
+//   }
+
+//   const client = new MongoClient(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+
+//   try {
+//     await client.connect();
+
+//     // Use the default database specified in the URI
+//     cachedDb = client.db();  // This will use the database in the URI if specified
+//     return { db: cachedDb };
+//   } catch (error) {
+//     console.error('Failed to connect to the database:', error);
+//     throw new Error('Failed to connect to the database');
+//   }
+// }
+
