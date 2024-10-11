@@ -35,7 +35,7 @@ const DashBoardLayout = ({ children }) => {
     <div className="container max-w-full w-full flex h-screen max-sm:flex-col">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-100 border-r max-sm:w-full">
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full w-full">
           {/* Logo Section */}
           <div className="px-8 py-4 bg-gray-200 flex items-center justify-between">
             <h2 className="text-purple-600 font-bold text-lg flex items-center"><span className='logoD'>D</span>INVENTORY</h2>
@@ -158,7 +158,7 @@ const DashBoardLayout = ({ children }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow p-8 bg-white">
+      <main className="flex-grow p-8 bg-white max-w-[80%]">
         {children}
       </main>
     </div>
