@@ -28,6 +28,7 @@ const DashBoardLayout = ({ children }) => {
 
   // Sign out function
   const handleSignOut = () => {
+    localStorage.clear()
     signOut(); // Redirect to sign-in after sign-out
   };
 
