@@ -1,7 +1,7 @@
-// components/CreateProductForm.js
 'use client'
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FiCamera } from 'react-icons/fi'; // React Icon for camera/upload
 
 const CreateProductForm = () => {
   const [formData, setFormData] = useState({
@@ -52,9 +52,17 @@ const CreateProductForm = () => {
       };
 
       // Post to API to save product to MongoDB
-      await axios.post('/api/create-product', newProduct, {withCredentials:true});
+      await axios.post('/api/create-product', newProduct, { withCredentials: true });
       alert('Product created successfully');
       setUploading(false);
+      setFormData({
+        name: '',
+        code: '',
+        type: '',
+        price: '',
+        quantity: '',
+      });
+      setImageBase64('');
     } catch (error) {
       console.error('Error creating product:', error);
       setUploading(false);
@@ -62,58 +70,114 @@ const CreateProductForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="code"
-        placeholder="Code"
-        value={formData.code}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        name="type"
-        placeholder="Type"
-        value={formData.type}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="Price"
-        value={formData.price}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="quantity"
-        placeholder="Quantity"
-        value={formData.quantity}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="file"
-        name="image"
-        onChange={handleImageChange}
-        required
-      />
-      <button type="submit" disabled={uploading}>
-        {uploading ? 'Uploading...' : 'Create Product'}
-      </button>
-    </form>
+    <div className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-semibold text-center mb-6">Create New Product</h2>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Name Field */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium mb-2">Product Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter product name"
+            value={formData.name}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Code Field */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium mb-2">Product Code</label>
+          <input
+            type="text"
+            name="code"
+            placeholder="Enter product code"
+            value={formData.code}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Type Field */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium mb-2">Product Type</label>
+          <input
+            type="text"
+            name="type"
+            placeholder="Enter product type"
+            value={formData.type}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Price Field */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium mb-2">Product Price</label>
+          <input
+            type="number"
+            name="price"
+            placeholder="Enter product price"
+            value={formData.price}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Quantity Field */}
+        <div className="flex flex-col">
+          <label className="text-gray-700 font-medium mb-2">Quantity</label>
+          <input
+            type="number"
+            name="quantity"
+            placeholder="Enter quantity"
+            value={formData.quantity}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        {/* Image Upload */}
+        <div className="flex flex-col items-start">
+          <label className="text-gray-700 font-medium mb-2">Product Image</label>
+          <label className="flex items-center justify-center border border-gray-300 rounded-md p-3 cursor-pointer hover:bg-gray-100">
+            <FiCamera className="text-blue-500 mr-2" size={20} />
+            <span>Upload Image</span>
+            <input
+              type="file"
+              name="image"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+          </label>
+          {imageBase64 && (
+            <img src={imageBase64} alt="Product Preview" className="mt-4 w-32 h-32 object-cover rounded-md" />
+          )}
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          disabled={uploading}
+          className={`mt-4 px-4 py-2 text-white font-medium rounded-md focus:outline-none ${
+            uploading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
+          }`}
+        >
+          {uploading ? 'Uploading...' : 'Create Product'}
+        </button>
+      </form>
+    </div>
   );
 };
 
 export default CreateProductForm;
+

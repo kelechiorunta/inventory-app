@@ -70,7 +70,7 @@ export async function POST(req, res) {
     }
 
     // Find stock by month and year (or create a new stock entry if not found)
-    let product = await Stock.findOne({name, code, _id:sessionUser.products_list});
+    let product = await InventoryProduct.findOne({name, code, _id:sessionUser.products_list});
 
     if (!product) {
       product = new InventoryProduct({ name, code, type, price, quantity, image });

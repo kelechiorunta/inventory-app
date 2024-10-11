@@ -76,6 +76,16 @@ import axios from 'axios';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'; // Include the CSS for skeleton animations
 import Pagination from './Pagination';
+import TableLayout from './TableLayout';
+
+const headers = [
+  { key: 'Name', label: 'Name', scope: 'col' },
+  { key: 'Code', label: 'Code', scope: 'col' },
+  { key: 'Type', label: 'Type', scope: 'col' },
+  { key: 'Price', label: 'Price', scope: 'col' },
+  { key: 'Quantity', label: 'Quantity', scope: 'col' },
+  { key: 'Image', label: 'Image', scope: 'col' },
+];
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -104,6 +114,24 @@ const ProductList = () => {
     product.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  var rows = [];
+
+  filteredProducts.map((product) => {
+    
+      rows.push(
+          {
+            Name: product.name,
+            Code: product.code,
+            Type: product.type,
+            Price: product.price,
+            Quantity: product.quantity,
+            Image: <div className='mx-auto flex items-center justify-center max-xlg:justify-end'>
+                        <img src={product.image} alt={product.name} width="50" />
+                      </div>,
+          },
+      ) 
+  })
+
   // Get current products to display on the current page
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -120,7 +148,9 @@ const ProductList = () => {
         style={{ padding: '10px', marginBottom: '20px', width: '300px' }}
       />
 
-      <table border="1" width="100%">
+      <TableLayout headers={headers} rows={rows} loading={loading}/>
+
+      {/* <table border="1" width="100%">
         <thead>
           <tr>
             <th>Name</th>
@@ -173,7 +203,7 @@ const ProductList = () => {
             ))
           )}
         </tbody>
-      </table>
+      </table> */}
 
       {/* Pagination Component */}
       <Pagination
