@@ -1,6 +1,7 @@
 import SalesOrderList from "@/app/components/SalesOrderList";
 import DashBoardLayout from "../layout";
 import Link from "next/link";
+import SalesOrderChart from "@/app/components/SalesOrderChart";
 
 const SalesOrder = () => {
   return (
@@ -11,6 +12,7 @@ const SalesOrder = () => {
       <Link className='mt-4 rounded-md shadow-md px-4 py-2 w-max bg-blue-500 text-white' 
       href={'/dashboard/update-salesorder'}>Update Sales Order</Link>
       <SalesOrderList/>
+      {/* <SalesOrderChart/> */}
     </div>
     
   );

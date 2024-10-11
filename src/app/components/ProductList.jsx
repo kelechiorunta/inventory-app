@@ -95,19 +95,28 @@ const ProductList = () => {
   const productsPerPage = 15; // Number of products per page
 
   useEffect(() => {
-    // Fetch products from API
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get('/api/get-products');
-        setProducts(data.products);
-        setLoading(false); // Set loading to false when data is fetched
-      } catch (error) {
-        console.error('Error fetching products', error);
-        setLoading(false);
-      }
-    };
+    const cachedProducts = localStorage.getItem('products');
 
-    fetchProducts();
+    if (cachedProducts) {
+      // Use cached data if available
+      setProducts(JSON.parse(cachedProducts));
+      setLoading(false);
+    } else {
+      // Fetch data from API if not cached
+      const fetchProducts = async () => {
+        try {
+          const { data } = await axios.get('/api/get-products');
+          setProducts(data.products);
+          localStorage.setItem('products', JSON.stringify(data.products)); // Cache the data
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching products', error);
+          setLoading(false);
+        }
+      };
+
+      fetchProducts();
+    }
   }, []);
 
   const filteredProducts = products.filter(product =>

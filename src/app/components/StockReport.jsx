@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
+
 import { getStockData } from "../utils/actions/actions";
 import {
   Chart as ChartJS,
@@ -16,43 +17,66 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const StockReport = () => {
+  const [loading, setLoading] = useState(true); 
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [],
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-        
-            try {
-              const response = await axios.get('/api/get-stock', {withCredentials:true})//getStockData();//axios.get('/api/stock-data',{withCredentials: true});
-              console.log(response.data); // Handle the fetched stock data here
+        const cachedStockReports = localStorage.getItem('stockReports');
 
-              setChartData({
-                labels: response.data.stocks.map(item => item.month),
+            if (cachedStockReports) {
+            // Use cached data if available
+            // setChartData(JSON.parse(cachedStockReports));
+            setChartData({
+                labels: JSON.parse(cachedStockReports).map(item => item.month),
                 datasets: [
-                  {
+                {
                     label: 'Stock In',
-                    data: response.data.stocks.map(item => item.stockIn),
+                    data: JSON.parse(cachedStockReports).map(item => item.stockIn),
                     backgroundColor: '#00C49F',
-                  },
-                  {
+                },
+                {
                     label: 'Stock Out',
-                    data: response.data.stocks.map(item => item.stockOut),
+                    data: JSON.parse(cachedStockReports).map(item => item.stockOut),
                     backgroundColor: '#8884D8',
-                  },
+                },
                 ],
-              });
+            });
 
-            } catch (error) {
-              console.error('Error fetching stock data:', error);
+            setLoading(false);
+            } else {
+
+        const fetchData = async () => {
+            
+                try {
+                const response = await axios.get('/api/get-stock', {withCredentials:true})//getStockData();//axios.get('/api/stock-data',{withCredentials: true});
+                console.log(response.data); // Handle the fetched stock data here
+                localStorage.setItem('stockReports', JSON.stringify(response.data.stocks)); // Cache the data
+                setLoading(false)
+                setChartData({
+                    labels: response.data.stocks.map(item => item.month),
+                    datasets: [
+                    {
+                        label: 'Stock In',
+                        data: response.data.stocks.map(item => item.stockIn),
+                        backgroundColor: '#00C49F',
+                    },
+                    {
+                        label: 'Stock Out',
+                        data: response.data.stocks.map(item => item.stockOut),
+                        backgroundColor: '#8884D8',
+                    },
+                    ],
+                });
+
+                } catch (error) {
+                console.error('Error fetching stock data:', error);
+                }
             }
-    
-          
-        //   fetchData();
+            fetchData()
         }
-        fetchData()
-    
   }, []);
 
   return (

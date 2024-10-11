@@ -158,7 +158,7 @@ const DashBoardLayout = ({ children }) => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-grow p-8 bg-white max-w-[80%]">
+      <main className="flex-grow p-8 bg-white max-w-[80%] max-sm:max-w-full">
         {children}
       </main>
     </div>

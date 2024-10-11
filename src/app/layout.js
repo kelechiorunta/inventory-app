@@ -2,6 +2,10 @@ import localFont from "next/font/local";
 import { Poppins } from "next/font/google"
 import "./globals.css";
 import { Providers } from "./nextauth/Providers";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// const queryClient = new QueryClient();
 
 const poppins = Poppins({subsets:['latin'], weight:'400'})
 
@@ -30,7 +34,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${poppins.className}`}
       >
         <Providers>
+       
           {children}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+        
         </Providers>
       </body>
     </html>
