@@ -63,7 +63,7 @@ export async function GET(req, res) {
     //  console.log(getproducts)
 
     // Return the user's suppliers data
-    return NextResponse.json({ suppliers: getsuppliers, product: getproducts}, { status: 200 });
+    return NextResponse.json({ suppliers: getsuppliers }, { status: 200 });
 
   } catch (error) {
     console.error('Error fetching user stock data:', error);

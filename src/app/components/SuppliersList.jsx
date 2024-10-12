@@ -26,29 +26,28 @@ const SuppliersList = () => {
     const cachedSuppliers = localStorage.getItem('suppliers');
     const cachedProduct = localStorage.getItem('product');
 
-    // if (cachedSuppliers && cachedProduct) {
-    //   // Use cached data if available
-    //   setSuppliers(JSON.parse(cachedSuppliers));
-    //   setProducts(JSON.parse(cachedProduct));
-    //   // setLoading(false);
-    // } else {
+    if (cachedSuppliers && cachedProduct) {
+      // Use cached data if available
+      setSuppliers(JSON.parse(cachedSuppliers));
+      setProducts(JSON.parse(cachedProduct));
+      // setLoading(false);
+    } else {
 
     const fetchSuppliers = async () => {
       try {
         const response = await axios.get('/api/get-supplier', { withCredentials: true });
-        console.log(response.data?.suppliers, response.data?.product)
+        console.log(response.data?.suppliers)
         setSuppliers(response.data?.suppliers); // Set data or fallback to an empty array
-        const inventoryProducts = await getInventoryProducts()
+        const inventoryProducts = await getInventoryProducts();
         setProducts(inventoryProducts);
-        // setProducts(response.data?.product);
         localStorage.setItem('suppliers', JSON.stringify(response.data?.suppliers));
-        localStorage.setItem('product', JSON.stringify(response.data?.product));
+        localStorage.setItem('product', JSON.stringify(inventoryProducts));
       } catch (error) {
         console.error('Error fetching suppliers', error);
       }
     };
     fetchSuppliers();
-  // }
+  }
   }, []);
 
   // Filter suppliers based on search query

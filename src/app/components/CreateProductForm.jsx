@@ -63,6 +63,7 @@ const CreateProductForm = () => {
         quantity: '',
       });
       setImageBase64('');
+      localStorage.clear();
     } catch (error) {
       console.error('Error creating product:', error);
       setUploading(false);
