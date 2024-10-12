@@ -2,23 +2,53 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaSearch, FaEdit } from 'react-icons/fa';
+import TableLayout from './TableLayout';
+import { getInventoryProducts } from '../utils/actions/actions';
+
+const headers = [
+  { key: 'Name', label: 'Name', scope: 'col' },
+  { key: 'Email', label: 'Email', scope: 'col' },
+  // { key: 'Address', label: 'Address', scope: 'col' },
+  { key: 'Contact', label: 'Contact No.', scope: 'col' },
+  { key: 'Product', label: 'Product', scope: 'col' },
+  
+];
 
 const SuppliersList = () => {
   // State for suppliers and search query
   const [suppliers, setSuppliers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
 
   // Fetch suppliers from API on component mount
   useEffect(() => {
+    
+    const cachedSuppliers = localStorage.getItem('suppliers');
+    const cachedProduct = localStorage.getItem('product');
+
+    // if (cachedSuppliers && cachedProduct) {
+    //   // Use cached data if available
+    //   setSuppliers(JSON.parse(cachedSuppliers));
+    //   setProducts(JSON.parse(cachedProduct));
+    //   // setLoading(false);
+    // } else {
+
     const fetchSuppliers = async () => {
       try {
-        const response = await axios.get('/api/get-suppliers', { withCredentials: true });
-        setSuppliers(response.data || []); // Set data or fallback to an empty array
+        const response = await axios.get('/api/get-supplier', { withCredentials: true });
+        console.log(response.data?.suppliers, response.data?.product)
+        setSuppliers(response.data?.suppliers); // Set data or fallback to an empty array
+        const inventoryProducts = await getInventoryProducts()
+        setProducts(inventoryProducts);
+        // setProducts(response.data?.product);
+        localStorage.setItem('suppliers', JSON.stringify(response.data?.suppliers));
+        localStorage.setItem('product', JSON.stringify(response.data?.product));
       } catch (error) {
         console.error('Error fetching suppliers', error);
       }
     };
     fetchSuppliers();
+  // }
   }, []);
 
   // Filter suppliers based on search query
@@ -26,10 +56,31 @@ const SuppliersList = () => {
     supplier.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  var rows = [];
+
+  filteredSuppliers.map((supplier) => {
+      rows.push(
+          {
+            Name: supplier.name,
+            Email: <p className=' max-xlg:w-full'>{supplier.contactInfo?.email}</p>,
+            // Address: supplier.contactInfo?.address,
+            Contact: supplier.contactInfo?.phone,
+            Product: products && products.map((item, index)=>{return  item._id===supplier.products[0] && 
+                                              (<ul className='flex flex-col gap-2 justify-end items-center max-xlg:items-end'
+                                            key={item._id}>
+                                              <li className='flex items-center justify-end'>Name - {item.name}</li>
+                                              <li className='flex items-center justify-end'>Type - {item.type}</li>
+                                              <li className='flex items-center justify-between'>Price - {item.price}</li>
+                                              <li className='flex items-center justify-between'>Quantity - {item.quantity}</li>
+                                              </ul>)})
+          },
+      )
+  });
+
   return (
     <div className="container mx-auto p-6 bg-white rounded-lg shadow-md">
       {/* Header Section */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 max-xlg:flex-wrap">
         <h1 className="text-2xl font-semibold">Suppliers</h1>
 
         {/* Search Bar */}
@@ -52,10 +103,11 @@ const SuppliersList = () => {
 
       {/* Suppliers Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full text-left table-auto">
+        <TableLayout headers={headers} rows={rows}/>
+        {/* <table className="min-w-full text-left table-auto">
           <thead>
             <tr className="text-gray-700">
-              <th className="px-6 py-3">Supplier Name</th>
+              <th className="px-6 py-3">Name</th>
               <th className="px-6 py-3">Email</th>
               <th className="px-6 py-3">Contact No.</th>
               <th className="px-6 py-3"></th>
@@ -74,7 +126,7 @@ const SuppliersList = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
 
         {/* Show message if no suppliers match the search */}
         {filteredSuppliers.length === 0 && (

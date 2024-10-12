@@ -13,11 +13,11 @@ const SupplierSchema = new mongoose.Schema({
     products: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'InventoryProduct',
       },
     ],
   });
   
-  const Supplier = mongoose.model('Supplier', SupplierSchema);
+  const Supplier = mongoose.models.Supplier || mongoose.model('Supplier', SupplierSchema);
 
   export default Supplier
