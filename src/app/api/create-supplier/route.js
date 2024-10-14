@@ -33,7 +33,7 @@ export async function POST(req, res) {
     }
 
     // Find the authenticated user in the SessionUser collection
-    let sessionUser = await SessionUser.findOne({ user_email: user.email }).populate('suppliers_list');
+    let sessionUser = await SessionUser.findOne({ user_email: user.email }).select('user_email').populate('suppliers_list');
 
     // If the session user doesn't exist, create a new one
     if (!sessionUser) {
