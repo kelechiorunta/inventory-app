@@ -71,6 +71,7 @@ const SalesOrderForm = ({ ListProducts }) => {
       const response = await axios.post('/api/save-salesorder', entries, { withCredentials: true });
       console.log('Sales Order saved:', response.data);
       alert('Sales Order saved successfully');
+      localStorage.clear();
     } catch (error) {
       console.error('Error saving sales order', error);
     } finally {

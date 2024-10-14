@@ -150,12 +150,15 @@ const ProductList = () => {
   return (
     <div>
       <input
+        aria-labelledby='my-input'
         type="text"
         placeholder="Search..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ padding: '10px', marginBottom: '20px', width: '300px' }}
       />
+
+      <p hidden id='my-input'>Please enter the Product</p>
 
       <TableLayout headers={headers} rows={rows} loading={loading}/>
 
