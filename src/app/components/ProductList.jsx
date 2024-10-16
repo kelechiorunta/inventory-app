@@ -158,7 +158,8 @@ const ProductList = () => {
         style={{ padding: '10px', marginBottom: '20px', width: '300px' }}
       />
 
-      <p hidden id='my-input'>Please enter the Product</p>
+      {/* <p hidden id='my-input'>Please enter the Product</p> */}
+      
 
       <TableLayout headers={headers} rows={rows} loading={loading}/>
 
