@@ -57,7 +57,7 @@ export default function TableLayout({ headers, rows, loading }) {
               <td
                 key={colIndex}
                 data-label={header.label}
-                className="block xlg:table-cell px-2 py-[0.625em] text-right xlg:text-center border-b last:border-b-0 xlg:border-0 before:content-[attr(data-label)] before:font-bold before:uppercase before:float-left before:xlg:hidden"
+                // className="block xlg:table-cell px-2 py-[0.625em] text-right xlg:text-center border-b last:border-b-0 xlg:border-0 before:content-[attr(data-label)] before:font-bold before:uppercase before:float-left before:xlg:hidden"
               >
                 {row[header.key]}
               </td>
