@@ -55,7 +55,13 @@ export async function GET(req, ) {
           "year": 2024,
           "stockIn": 18000,
           "stockOut": 16000
-        }
+        },
+        {
+          "month": "May",
+          "year": 2024,
+          "stockIn": 18000,
+          "stockOut": 16000
+        },
         // More months...
       ]
       //{message:"Hello"}
